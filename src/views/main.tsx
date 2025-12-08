@@ -1,14 +1,18 @@
-import { apiGet } from "@/api/get";
-import { useEffect, useState } from "react";
-import { Text, View } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../redux/store";
+import { useCinmeas, useMovies } from "@/hooks/data";
+import { Text } from "react-native";
 
-export default function Home(){
+export default function Home() {
+  const movies = useMovies();
+  const cinemas = useCinmeas();
 
-    return (
-        <View>
-            <Text>Halló</Text>
-        </View>
-    );
+
+  return (
+    <>
+      {cinemas.map(movie => (
+        <Text key={movie.id}>{movie.name}</Text>
+      ))}
+
+
+    </>
+  );
 }

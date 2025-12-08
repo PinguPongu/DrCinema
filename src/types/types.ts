@@ -96,7 +96,7 @@ export interface Movie {
   year: string;
 }
 
-export interface Theaters {
+export interface Cinema {
   id: number,
   name: string,
   address: string,
