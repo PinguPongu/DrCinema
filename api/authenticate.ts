@@ -1,32 +1,27 @@
 import { encode as btoa } from "base-64";
 
-const API_URL = "http://api.kvikmyndir.is/authenticate";
+const AUTH_URL = "https://api.kvikmyndir.is/authenticate";
 
-export async function authenticate() {
-  const username = "gudni23";
-  const password = "fuckthisshit";
-
+export async function authenticate(): Promise<string> {
+  const username = "YOUR_USERNAME";
+  const password = "YOUR_PASSWORD";
   const credentials = btoa(`${username}:${password}`);
 
-  try {
-    const response = await fetch(API_URL, {
-      method: "POST",
-      headers: {
-        Authorization: `Basic ${credentials}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({}), 
-    });
+  const res = await fetch(AUTH_URL, {
+    method: "POST",
+    headers: {
+      Authorization: `Basic ${credentials}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({}),
+  });
 
-    if (!response.ok) {
-      const text = await response.text();
-      throw new Error(`HTTP ${response.status}: ${text}`);
-    }
-
-    const data = await response.json();
-    return data;
-  } catch (err) {
-    console.error("Auth error:", err);
-    throw err;
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Auth failed ${res.status}: ${text}`);
   }
+
+  const data = await res.json();
+
+  return data.token;
 }
