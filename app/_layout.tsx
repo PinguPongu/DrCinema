@@ -4,13 +4,12 @@ import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 import { useDispatch, useSelector } from 'react-redux';
 import { Provider as StoreProvider } from "react-redux";
-import store, { RootState } from "@/src/redux/store";
+import store, { RootState, AppDispatch } from "@/src/redux/store";
 import { Text } from "react-native";
 
 import { useColorScheme } from '@/hooks/use-color-scheme';
-import { authenticate } from '@/api/authenticate';
-import { getAuthenticate } from '@/src/redux/features/authenticate/authenticate-slice';
 import { useEffect } from 'react';
+import { getToken } from '@/src/redux/features/token/token-slice';
 
 export const unstable_settings = {
   anchor: '(tabs)',
@@ -18,21 +17,17 @@ export const unstable_settings = {
 
 function InnerRoot() {
   const colorScheme = useColorScheme();
-  const dispatch = useDispatch();
-  const token = useSelector((state: RootState) => state.authenticate.token);
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    const fetchAuth = async () => {
-      try {
-        const data = await authenticate();
-        dispatch(getAuthenticate(data));
-      } catch (err) {
-        console.error('Auth error: ', err);
-      }
-    };
-
-    fetchAuth();
+    dispatch(getToken());
   }, [dispatch]);
+  
+  const token = useSelector((state: RootState) => {
+    console.log(state)
+    return state.token.token
+  });
+
 
   return (
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
