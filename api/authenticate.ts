@@ -15,18 +15,16 @@ export async function authenticate() {
         Authorization: `Basic ${credentials}`,
         "Content-Type": "application/json",
       },
-      // If the API needs a body, put it here; otherwise you can omit body:
       body: JSON.stringify({}), 
     });
 
     if (!response.ok) {
-      // status is not 2xx
       const text = await response.text();
       throw new Error(`HTTP ${response.status}: ${text}`);
     }
 
     const data = await response.json();
-    return data; // e.g. token or whatever the API returns
+    return data;
   } catch (err) {
     console.error("Auth error:", err);
     throw err;
