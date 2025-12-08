@@ -38,9 +38,7 @@ function InnerRoot() {
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
         </Stack>
-        <Text>{token}</Text>
         <StatusBar style="auto" />
       </ThemeProvider>
 
