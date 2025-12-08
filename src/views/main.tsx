@@ -5,11 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 
 export default function Home(){
-    const dispatch = useDispatch();
-    const token = useSelector((state: RootState) => state.authenticate.token);
-    const movies = apiGet('/movies', token);
-    
-    
 
     return (
         <View>
