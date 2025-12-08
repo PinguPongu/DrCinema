@@ -3,8 +3,8 @@ import { encode as btoa } from "base-64";
 const API_URL = "http://api.kvikmyndir.is/authenticate";
 
 export async function authenticate() {
-  const username = "joehannman";
-  const password = "lollachan";
+  const username = "gudni23";
+  const password = "fuckthisshit";
 
   const credentials = btoa(`${username}:${password}`);
 
