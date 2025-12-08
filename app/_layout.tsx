@@ -21,7 +21,8 @@ function InnerRoot() {
   useEffect(() => {
     dispatch(getToken());
   }, [dispatch]);
-  
+
+  console.log(useSelector((state: RootState) => state.token.token));
 
   return (
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
