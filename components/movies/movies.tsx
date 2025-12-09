@@ -16,11 +16,8 @@ export function Movie({movie} : movieProps){
             />}
       <View style={styles.info}>
         <Text style={styles.title}>{movie.title}</Text>
-        {
-        <Text style={styles.year}>{movie.year}</Text>}
-        {
+        <Text style={styles.year}>{movie.year}</Text>
         <Image source={{ uri: movie.certificateImg }} style={styles.certificate} />
-        }
       </View>
     </View>
   )
