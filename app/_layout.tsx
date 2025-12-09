@@ -33,6 +33,7 @@ function InnerRoot() {
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="/movie-details"/>
         </Stack>
         <StatusBar style="auto" />
       </ThemeProvider>

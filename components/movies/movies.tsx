@@ -1,13 +1,26 @@
 import { Movie as MovieType } from "@/src/types/types";
-import {View, Text, Image} from "react-native";
+import {View, Text, Image, TouchableOpacity} from "react-native";
 import { styles } from "./styles"
+import { router } from "expo-router";
 
 type movieProps = {
-    movie: MovieType
+    movie: MovieType,
+    cinemaId: number
 };
 
-export function Movie({movie} : movieProps){
+export function Movie({movie, cinemaId} : movieProps){
+    const handlePress = () => {
+        router.push({
+            pathname: "/movie-details",
+            params: {
+                cinemaId: String(cinemaId),
+                movie: JSON.stringify(movie)
+            }
+        })
+    }
+
     return (
+        <TouchableOpacity onPress={handlePress}>
          <View style={styles.container}>
             {<Image
             source={{uri: movie.poster}}
@@ -24,6 +37,7 @@ export function Movie({movie} : movieProps){
                 ))}
                 <Image source={{ uri: movie.certificateImg }} style={styles.certificate} />
             </View>
-    </View>
+        </View>
+        </TouchableOpacity>
   )
 }
