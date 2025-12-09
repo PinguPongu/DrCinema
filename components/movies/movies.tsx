@@ -6,13 +6,23 @@ import { Ionicons } from '@expo/vector-icons';
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { styles } from "./styles";
+import { router } from "expo-router";
 
 type movieProps = {
-  movie: MovieType;
+    movie: MovieType,
+    cinemaId?: number
 };
 
-export function Movie({ movie }: movieProps) {
-
+export function Movie({movie, cinemaId} : movieProps){
+  const handlePress = () => {
+      router.push({
+          pathname: "/movie-details",
+          params: {
+              cinemaId: String(cinemaId),
+              movie: JSON.stringify(movie)
+          }
+      })
+  }
   const dispatch = useDispatch();
   const favIds = useSelector((state: RootState) => state.favorites.ids);
   const movieIdString = movie.id.toString();
@@ -34,8 +44,7 @@ export function Movie({ movie }: movieProps) {
   };
 
   return (
-    <View style={styles.container}>
-
+    <View>
       <TouchableOpacity
         style={{ position: "absolute", top: 8, right: 8, zIndex: 20 }}
         onPress={toggleFavorite}
@@ -47,19 +56,21 @@ export function Movie({ movie }: movieProps) {
         />
       </TouchableOpacity>
 
-      <Image
-        source={{ uri: movie.poster }}
-        style={styles.poster}
-        resizeMode="cover"
-      />
-
-      <View style={styles.info}>
-        <Text style={styles.title}>{movie.title}</Text>
-        <Text style={styles.year}>{movie.year}</Text>
-        <Text style={styles.year}>{movie.durationMinutes} min</Text>
-        <Image source={{ uri: movie.certificateImg }} style={styles.certificate} />
-      </View>
-
+      <TouchableOpacity onPress={handlePress}>
+        <View style={styles.container}>
+          <Image
+            source={{ uri: movie.poster }}
+            style={styles.poster}
+            resizeMode="cover"
+          />
+          <View style={styles.info}>
+            <Text style={styles.title}>{movie.title}</Text>
+            <Text style={styles.year}>{movie.year}</Text>
+            <Text style={styles.year}>{movie.durationMinutes} min</Text>
+            <Image source={{ uri: movie.certificateImg }} style={styles.certificate} />
+          </View>
+        </View>
+      </TouchableOpacity>
     </View>
   );
 }
