@@ -1,6 +1,6 @@
 import Favorites from "@/src/views/favorites"
 
-export default function Main(){
+export default function FavoritesScreen(){
     return (
         <Favorites />
     )
