@@ -34,7 +34,14 @@ export default function TabLayout() {
         name="cinemas"
         options={{
           title: 'Cinemas',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="video" color={color} />,
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="video.fill" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="upcoming"
+        options={{
+          title: 'Upcoming',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="arrow.2.circlepath" color={color} />,
         }}
       />
     </Tabs>

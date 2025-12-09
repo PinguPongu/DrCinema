@@ -44,7 +44,6 @@ export default function CinemaDetailsItem({ cinema } : CinemaProps) {
         <Text style={styles.extra}>{cinema.website}</Text>
       </View>
       <Cinema cinema={cinema} movies={movies}/>
-
     </View>
   )
 }
