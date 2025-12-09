@@ -1,14 +1,18 @@
-import { apiGet } from "@/api/get";
-import { useEffect, useState } from "react";
-import { Text, View } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../redux/store";
+import { useCinmeas, useMovies } from "@/hooks/data";
+import { View, ScrollView } from "react-native";
+import  { Cinema }  from "@/components/cinema/cinema"
 
-export default function Home(){
+export default function Home() {
+  const movies = useMovies();
+  const cinemas = useCinmeas();
 
-    return (
+  return (
+    <ScrollView>
         <View>
-            <Text>Halló</Text>
+            {cinemas.map((cinema) => (
+                <Cinema key={cinema.id} cinema={cinema} movies={movies}/>
+            ))}
         </View>
-    );
+    </ScrollView>
+  );
 }
