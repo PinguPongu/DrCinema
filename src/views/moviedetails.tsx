@@ -15,7 +15,7 @@ export function MovieDetails(){
 
     const schedule = showTimeForThisCinema?.schedule;
 
-    const firstTrailerUrl: string | null =  movieData?.trailers?.[0]?.results?.[0].url ?? null;
+    const firstTrailerUrl: string | null =  movieData?.trailers?.[0]?.results?.[0]?.url ?? null;
 
     const getYoutubeId = (url: string | null): string | null => {
         if (!url) return null;
