@@ -5,7 +5,6 @@ import 'react-native-reanimated';
 import { useDispatch, useSelector } from 'react-redux';
 import { Provider as StoreProvider } from "react-redux";
 import store, { RootState, AppDispatch } from "@/src/redux/store";
-import { Text } from "react-native";
 
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { useEffect } from 'react';
@@ -22,12 +21,8 @@ function InnerRoot() {
   useEffect(() => {
     dispatch(getToken());
   }, [dispatch]);
-  
-  const token = useSelector((state: RootState) => {
-    console.log(state)
-    return state.token.token
-  });
 
+  console.log(useSelector((state: RootState) => state.token.token));
 
   return (
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
