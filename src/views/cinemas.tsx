@@ -5,11 +5,13 @@ import { useCinmeas } from "@/hooks/data";
 
 export default function Cinemas() {
   const cinemasList = useCinmeas();
-
+  const sortedCinemas = [...cinemasList].sort((a, b) =>
+    a.name.localeCompare(b.name)
+  );
   
   return (
     <SafeAreaView>
-      <CinemaList cinemas={cinemasList}/>
+      <CinemaList cinemas={sortedCinemas}/>
     </SafeAreaView>
   )
 }
