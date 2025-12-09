@@ -14,11 +14,16 @@ export function Movie({movie} : movieProps){
             style={styles.poster}
             resizeMode="cover"
             />}
-      <View style={styles.info}>
-        <Text style={styles.title}>{movie.title}</Text>
-        <Text style={styles.year}>{movie.year}</Text>
-        <Image source={{ uri: movie.certificateImg }} style={styles.certificate} />
-      </View>
+            <View style={styles.info}>
+                <View style={styles.titleRow}>
+                    <Text style={styles.title}>{movie.title}</Text>
+                    <Text style={styles.year}> - {movie.year}</Text>
+                </View>
+                {movie.genres.map((genre) => (
+                    <Text key={genre.ID}>{genre.Name}</Text>
+                ))}
+                <Image source={{ uri: movie.certificateImg }} style={styles.certificate} />
+            </View>
     </View>
   )
 }

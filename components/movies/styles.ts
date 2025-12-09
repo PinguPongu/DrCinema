@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 16,
     alignItems: "center",
- gap: 12,
+    gap: 12,
   },
   poster: {
     width: 60,
@@ -16,19 +16,33 @@ export const styles = StyleSheet.create({
   info: {
     flex: 1,
   },
+
+  titleRow: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    alignItems: "baseline",
+  },
   title: {
     fontSize: 16,
     fontWeight: "600",
+    marginRight: 4, // small gap before the year
   },
-  // If you want to use the age rating icon later:
+  year: {
+    fontSize: 14,
+    color: "#6b7280",
+  },
+
+  genres: {
+    marginTop: 2,
+  },
+  genreText: {
+    fontSize: 14,
+    color: "#111827",
+  },
+
   certificate: {
     width: 20,
     height: 20,
     marginTop: 4,
-  },
-   year: {
-    marginTop: 2,
-    fontSize: 14,
-    color: "#6b7280",
   },
 });
