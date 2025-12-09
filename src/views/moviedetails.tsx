@@ -13,7 +13,7 @@ export function MovieDetails(){
 
     const showTimeForThisCinema = movieData?.showtimes.find((s) => s.cinema.id === cinemaIdInt);
 
-    const schedule = showTimeForThisCinema?.schedule;
+    const schedule = showTimeForThisCinema?.schedule ?? [];
 
     const firstTrailerUrl: string | null =  movieData?.trailers?.[0]?.results?.[0]?.url ?? null;
 
@@ -41,7 +41,6 @@ export function MovieDetails(){
     <ScrollView contentContainerStyle={styles.container}>
         {movieData && (
         <>
-          <Text style={styles.title}>{movieData.title}</Text>
 
       <View style={styles.headerRow}>
         <Image
@@ -68,7 +67,7 @@ export function MovieDetails(){
 
           <View style={styles.certificateRow}>
             <Text style={styles.certificateText}>
-              Aldurstakmörk: {movieData?.certificateIS}
+              Aldurstakmark: {movieData?.certificateIS}
             </Text>
           </View>
         </View>
@@ -85,7 +84,7 @@ export function MovieDetails(){
             </View>
           )}
 
-      {schedule && schedule.length > 0 && (
+      {schedule.length > 0 && (
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Sýningartímar</Text>
           <View style={styles.showtimeRow}>
