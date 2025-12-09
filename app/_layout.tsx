@@ -5,6 +5,8 @@ import 'react-native-reanimated';
 import { useDispatch, useSelector } from 'react-redux';
 import { Provider as StoreProvider } from "react-redux";
 import store, { RootState, AppDispatch } from "@/src/redux/store";
+import { loadFavoritesFromStorage } from '@/src/services/favoritesStorage';
+import { setFavorites } from '@/src/redux/favorites/favoritesSlice';
 
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { useEffect } from 'react';
@@ -23,6 +25,15 @@ function InnerRoot() {
   }, [dispatch]);
 
   console.log(useSelector((state: RootState) => state.token.token));
+
+
+  useEffect(() => {
+    async function initFavorites() {
+      const favorites = await loadFavoritesFromStorage();
+      dispatch(setFavorites(favorites));
+    }
+    initFavorites();
+  }, [dispatch]);
 
   return (
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
