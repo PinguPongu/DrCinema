@@ -17,6 +17,7 @@ export function Movie({ movie }: movieProps) {
   const favIds = useSelector((state: RootState) => state.favorites.ids);
   const movieIdString = movie.id.toString();
   const isFavorite = favIds.includes(movieIdString);
+  
 
   const toggleFavorite = async () => {
     let updated;

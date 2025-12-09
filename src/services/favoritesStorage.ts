@@ -9,4 +9,5 @@ export async function loadFavoritesFromStorage(): Promise<string[]> {
 
 export async function saveFavoritesToStorage(favIds: string[]) {
   await AsyncStorage.setItem(KEY, JSON.stringify(favIds));
+  console.log(favIds);
 }
