@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
     backgroundColor: "#f9fafb",
   },
 
-  // Header
+  
   headerRow: {
     flexDirection: "row",
     gap: 16,
@@ -32,7 +32,7 @@ export const styles = StyleSheet.create({
     marginBottom: 8,
   },
 
-  // Genres
+  
   genreRow: {
     flexDirection: "row",
     flexWrap: "wrap",
@@ -50,7 +50,7 @@ export const styles = StyleSheet.create({
     color: "#374151",
   },
 
-  // Certificate
+  
   certificateRow: {
     marginTop: 4,
   },
@@ -60,7 +60,7 @@ export const styles = StyleSheet.create({
     fontWeight: "500",
   },
 
-  // Sections
+  
   section: {
     marginTop: 16,
   },
@@ -70,7 +70,7 @@ export const styles = StyleSheet.create({
     marginBottom: 6,
   },
 
-  // Showtimes
+  
   showtimeRow: {
     flexDirection: "row",
     flexWrap: "wrap",
@@ -89,14 +89,13 @@ export const styles = StyleSheet.create({
     color: "#111827",
   },
 
-  // Plot
+  
   plot: {
     fontSize: 14,
     lineHeight: 20,
     color: "#111827",
   },
 
-  // Metadata
   metaLine: {
     fontSize: 14,
     color: "#111827",
@@ -104,5 +103,13 @@ export const styles = StyleSheet.create({
   },
   metaLabel: {
     fontWeight: "600",
+  },
+
+  trailerContainer: {
+    marginTop: 16,
+    borderRadius: 12,
+    overflow: "hidden",
+    backgroundColor: "#000",
+    aspectRatio: 16 / 9,
   },
 });

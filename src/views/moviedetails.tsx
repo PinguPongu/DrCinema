@@ -2,20 +2,47 @@ import { useLocalSearchParams } from "expo-router";
 import { Image, Text, View, ScrollView } from "react-native";
 import { Movie as MovieType } from "../types/types";
 import { styles } from "./styles";
+import YoutubePlayer from "react-native-youtube-iframe";
 
 
 
 export function MovieDetails(){
-   const { cinemaId, movie} = useLocalSearchParams<{cinemaId?:string; movie?:string}>();
-   const movieData = movie ? JSON.parse(movie) as MovieType : null;
-   const cinemaIdInt = cinemaId ? Number(cinemaId) : undefined;
+    const { cinemaId, movie} = useLocalSearchParams<{cinemaId?:string; movie?:string}>();
+    const movieData = movie ? JSON.parse(movie) as MovieType : null;
+    const cinemaIdInt = cinemaId ? Number(cinemaId) : undefined;
 
-   const showTimeForThisCinema = movieData?.showtimes.find((s) => s.cinema.id === cinemaIdInt);
+    const showTimeForThisCinema = movieData?.showtimes.find((s) => s.cinema.id === cinemaIdInt);
 
-   const schedule = showTimeForThisCinema?.schedule;
+    const schedule = showTimeForThisCinema?.schedule;
+
+    const firstTrailerUrl: string | null =  movieData?.trailers?.[0]?.results?.[0].url ?? null;
+
+    const getYoutubeId = (url: string | null): string | null => {
+        if (!url) return null;
+        const patterns = [
+            /v=([^&]+)/,                 // https://www.youtube.com/watch?v=ID
+            /youtu\.be\/([^?]+)/,        // https://youtu.be/ID
+            /embed\/([^?]+)/,            // https://www.youtube.com/embed/ID
+        ];
+
+        for (const pattern of patterns) {
+            const match = url.match(pattern);
+            if (match && match[1]) {
+            return match[1];
+            }
+        }
+
+        return null;
+        };
+
+    const trailerId = getYoutubeId(firstTrailerUrl);
 
    return (
     <ScrollView contentContainerStyle={styles.container}>
+        {movieData && (
+        <>
+          <Text style={styles.title}>{movieData.title}</Text>
+
       <View style={styles.headerRow}>
         <Image
           source={{ uri: movieData?.poster }}
@@ -47,6 +74,17 @@ export function MovieDetails(){
         </View>
       </View>
 
+      {trailerId && (
+            <View style={styles.trailerContainer}>
+              <YoutubePlayer
+                height={220}
+                width={"100%"}
+                videoId={trailerId}
+                play={false}
+              />
+            </View>
+          )}
+
       {schedule && schedule.length > 0 && (
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Sýningartímar</Text>
@@ -69,31 +107,32 @@ export function MovieDetails(){
         <Text style={styles.sectionTitle}>Upplýsingar</Text>
         <Text style={styles.metaLine}>
           <Text style={styles.metaLabel}>Leikstjórar: </Text>
-          {movieData?.omdb[0].Director}
+          {movieData?.omdb[0]?.Director}
         </Text>
         <Text style={styles.metaLine}>
           <Text style={styles.metaLabel}>Handrit: </Text>
-          {movieData?.omdb[0].Writer}
+          {movieData?.omdb[0]?.Writer}
         </Text>
         <Text style={styles.metaLine}>
           <Text style={styles.metaLabel}>Leikarar: </Text>
-          {movieData?.omdb[0].Actors}
+          {movieData?.omdb[0]?.Actors}
         </Text>
         <Text style={styles.metaLine}>
           <Text style={styles.metaLabel}>Upprunaland: </Text>
-          {movieData?.omdb[0].Country}
+          {movieData?.omdb[0]?.Country}
         </Text>
         <Text style={styles.metaLine}>
           <Text style={styles.metaLabel}>IMDb: </Text>
-          {movieData?.omdb[0].imdbRating}
+          {movieData?.omdb[0]?.imdbRating}
         </Text>
-        {movieData?.omdb[0].tomatoUserRating && (
+        {movieData?.omdb[0]?.tomatoUserRating && (
           <Text style={styles.metaLine}>
             <Text style={styles.metaLabel}>Rotten Tomatoes (user): </Text>
-            {movieData?.omdb[0].tomatoUserRating}
+            {movieData?.omdb[0]?.tomatoUserRating}
           </Text>
         )}
       </View>
+    </>)}
     </ScrollView>
   );
 }
