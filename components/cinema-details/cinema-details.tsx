@@ -14,10 +14,8 @@ export default function CinemaDetailsItem({ cinema } : CinemaProps) {
   const movies = useMovies();
   const regex = /(<([^>]+)>)/gi;
   let cinemaDescription = "";
-  if (cinema.description.length !== 0) {
+  if (cinema.description !== null) {
     cinemaDescription = cinema.description.replace(regex, "");
-  } else {
-    cinemaDescription = cinema.description;
   };
   
   console.log(cinema);

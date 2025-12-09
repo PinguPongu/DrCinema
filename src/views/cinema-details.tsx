@@ -20,10 +20,10 @@ export default function CinemaDetailsScreen({ id }: props) {
   }
   
   return (
-    <View>
+    <SafeAreaView>
       <ScrollView>
         <CinemaDetailsItem cinema={cinema}/>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   )
 }
