@@ -1,10 +1,10 @@
 import { SafeAreaView } from "react-native-safe-area-context";
 import CinemaList from "@/components/cinema-list/cinema-list";
-import { useCinmeas } from "@/hooks/data";
+import { useCinemas } from "@/hooks/data";
 
 
 export default function Cinemas() {
-  const cinemasList = useCinmeas();
+  const cinemasList = useCinemas();
   const sortedCinemas = [...cinemasList].sort((a, b) =>
     a.name.localeCompare(b.name)
   );

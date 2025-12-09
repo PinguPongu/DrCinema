@@ -31,7 +31,7 @@ export function useMovies() {
 }
 
 
-export function useCinmeas() {
+export function useCinemas() {
   const dispatch = useDispatch();
 
   const token = useSelector((state: RootState) => state.token.token);
