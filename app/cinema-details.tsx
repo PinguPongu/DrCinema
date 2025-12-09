@@ -1,7 +1,10 @@
-import  Home  from "@/src/views/main"
+import CinemaDetailsScreen from "@/src/views/cinema-details";
+import { useLocalSearchParams } from "expo-router";
 
-export default function Main(){
+export default function CinemaDetails(){
+    const { id } = useLocalSearchParams<{ id:string }>();
+    
     return (
-        <Home />
+        <CinemaDetailsScreen id={id} />
     )
 }
