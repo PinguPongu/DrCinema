@@ -33,7 +33,7 @@ export function Cinema({cinema, movies}: CinemaProps){
         </View>
         </TouchableOpacity>
         {showMovies && moviesAtCinema.map((movie) => (
-            <Movie key={movie.id} movie={movie}/>
+            <Movie key={movie.id} movie={movie} cinemaId={cinema.id}/>
         ))}
         </View>
   );
