@@ -4,6 +4,7 @@ import { Movie as MovieType } from "../types/types";
 import { styles } from "./styles";
 import YoutubePlayer from "react-native-youtube-iframe";
 import { Linking } from 'react-native';
+import Review from "@/components/review/review";
 
 
 
@@ -148,6 +149,7 @@ export function MovieDetails(){
         )}
       </View>
     </>)}
+    <Review id={movieData?.id}/>
     </ScrollView>
   );
 }

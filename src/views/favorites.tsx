@@ -20,7 +20,7 @@ export default function Favorites() {
   const upComingMovies =useUpcomingMovies();
   const favoriteIds = useSelector((state: RootState) => state.favorites.ids);
 
-  let favoriteMovies: FavoriteMovieItem[] = favoriteIds
+  const favoriteMovies: FavoriteMovieItem[] = favoriteIds
     .map(id => {
       const movie =
         movies.find(m => String(m.id) === id) ??

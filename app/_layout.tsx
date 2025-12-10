@@ -15,6 +15,8 @@ import { useEffect } from 'react';
 import { getToken } from '@/src/redux/features/token/token-slice';
 
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { loadReviewsFromStorage } from '@/src/services/reviewStorage';
+import { setReviews } from '@/src/redux/reviews/reviewsSlice';
 
 
 export const unstable_settings = {
@@ -38,6 +40,14 @@ function InnerRoot() {
       dispatch(setFavorites(favorites));
     }
     initFavorites();
+  }, [dispatch]);
+
+  useEffect(() => {
+    async function initReviews() {
+      const reviews = await loadReviewsFromStorage();
+      dispatch(setReviews(reviews));
+    }
+    initReviews();
   }, [dispatch]);
 
   return (
