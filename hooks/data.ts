@@ -1,6 +1,6 @@
 import { apiGet } from "@/api/get";
 import { getCinemas } from "@/src/redux/features/cinema/cinema-slice";
-import { getMovies } from "@/src/redux/features/movies/movies-slice";
+import { getMovies, getUpcomingMovies } from "@/src/redux/features/movies/movies-slice";
 import { RootState } from "@/src/redux/store";
 import { Movie as MovieType } from "@/src/types/types";
 import { useEffect } from "react";
@@ -30,8 +30,31 @@ export function useMovies() {
   return movies;
 }
 
+export function useUpcomingMovies() {
+  const dispatch = useDispatch();
 
-export function useCinmeas() {
+  const token = useSelector((state: RootState) => state.token.token);
+  const upcomingMovies = useSelector((state: RootState) => state.movies.upcomingMovies);
+
+  useEffect(() => {
+    if (!token) return;
+
+    async function load() {
+      const data: MovieType[] = await apiGet('/upcoming', token);
+      // Guðni skrifaði þetta til þess að taka burtu dupes
+      const uniqueMovies = [
+        ...new Map(data.map(movie => [movie.id, movie])).values()
+      ];
+      dispatch(getUpcomingMovies(uniqueMovies));
+    }
+
+    load();
+  }, [dispatch, token]);
+
+  return upcomingMovies;
+}
+
+export function useCinemas() {
   const dispatch = useDispatch();
 
   const token = useSelector((state: RootState) => state.token.token);

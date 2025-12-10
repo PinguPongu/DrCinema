@@ -1,10 +1,10 @@
-import { useCinmeas, useMovies } from "@/hooks/data";
+import { useCinemas, useMovies } from "@/hooks/data";
 import { View, ScrollView } from "react-native";
 import  { Cinema }  from "@/components/cinema/cinema"
 
 export default function Home() {
   const movies = useMovies();
-  const cinemas = useCinmeas();
+  const cinemas = useCinemas();
 
   return (
     <ScrollView>

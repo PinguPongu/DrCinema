@@ -78,7 +78,7 @@ export interface Movie {
     rotten_critics: string;
   };
 
-  showtimes: {
+  showtimes?: {
     cinema: {
       id: number;
       name: string;
