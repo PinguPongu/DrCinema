@@ -1,8 +1,9 @@
 import { useLocalSearchParams } from "expo-router";
-import { Image, Text, View, ScrollView } from "react-native";
+import { Image, Text, View, ScrollView, TouchableOpacity } from "react-native";
 import { Movie as MovieType } from "../types/types";
 import { styles } from "./styles";
 import YoutubePlayer from "react-native-youtube-iframe";
+import { Linking } from 'react-native';
 
 
 
@@ -91,9 +92,22 @@ export function MovieDetails(){
           <Text style={styles.sectionTitle}>Sýningartímar</Text>
           <View style={styles.showtimeRow}>
             {schedule.map((showtime) => (
-              <View key={showtime.time} style={styles.showtimeChip}>
-                <Text style={styles.showtimeText}>{showtime.time}</Text>
-              </View>
+              <TouchableOpacity 
+                key={showtime.time} 
+                style={styles.showtimeChip} 
+                onPress={async () => {
+                  const url = showtime.purchase_url;
+
+                  const supported = await Linking.canOpenURL(url);
+                  if (supported) {
+                    await Linking.openURL(url);
+                  } else {
+                    console.warn("Don't know how to open URI: " + url);
+                  }
+                }}
+                >
+                  <Text style={styles.showtimeText}>{showtime.time}</Text>
+              </TouchableOpacity>
             ))}
           </View>
         </View>

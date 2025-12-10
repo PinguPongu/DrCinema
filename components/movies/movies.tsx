@@ -46,34 +46,41 @@ export function Movie({ movie, cinemaId, onLongPress }: movieProps) {
   };
 
   return (
-    <TouchableOpacity
-      onPress={handlePress}
-      onLongPress={onLongPress}
-      activeOpacity={0.9}
-      style={styles.topContainer}
-    >
       <TouchableOpacity
-        style={{ position: "absolute", top: 8, right: 8, zIndex: 20 }}
-        onPress={(e) => {
-          e.stopPropagation();
-          toggleFavorite();
-        }}
+        onPress={handlePress}
+        onLongPress={onLongPress}
+        activeOpacity={0.9}
+        style={styles.topContainer}
       >
-        <Ionicons
-          name={isFavorite ? "star" : "star-outline"}
-          size={28}
-          color={isFavorite ? "#FFD700" : "#ccc"}
-        />
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={{ position: "absolute", top: 8, right: 8, zIndex: 20 }}
+          onPress={(e) => {
+            e.stopPropagation();
+            toggleFavorite();
+          }}
+        >
+          <Ionicons
+            name={isFavorite ? "star" : "star-outline"}
+            size={28}
+            color={isFavorite ? "#FFD700" : "#ccc"}
+          />
+        </TouchableOpacity>
 
-      <View style={styles.container}>
-        <Image source={{ uri: movie.poster }} style={styles.poster} />
-        <View style={styles.info}>
-          <Text style={styles.title}>{movie.title}</Text>
-          <Text style={styles.year}>{movie.year}</Text>
-          <Image source={{ uri: movie.certificateImg }} style={styles.certificate} />
+        <View style={styles.container}>
+          <Image source={{ uri: movie.poster }} style={styles.poster} />
+          <View style={styles.info}>
+            <Text style={styles.title}>{movie.title}</Text>
+            <Text style={styles.year}>{movie.year}</Text>
+            <View style={styles.genreRow}>
+              {movie.genres.map((genre) => (
+                <View key={genre.ID} style={styles.genreChip}>
+                  <Text style={styles.genreText}>{genre.Name}</Text>
+                </View>
+              ))}
+            </View>
+            <Image source={{ uri: movie.certificateImg }} style={styles.certificate} />
+          </View>
         </View>
-      </View>
-    </TouchableOpacity>
+      </TouchableOpacity>
   );
 }

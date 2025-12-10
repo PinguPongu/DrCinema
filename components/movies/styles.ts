@@ -2,7 +2,9 @@ import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   topContainer:{
-    height:100,
+    // height:150,
+    // paddingVertical: 20,
+    marginVertical:10,
   },
   container: {
     flexDirection: "row",
@@ -19,7 +21,18 @@ export const styles = StyleSheet.create({
   info: {
     flex: 1,
   },
-
+  genreRow: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 6,
+    marginBottom: 8,
+  },
+  genreChip: {
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 999,
+    backgroundColor: "#e5e7eb",
+  },
   titleRow: {
     flexDirection: "row",
     flexWrap: "wrap",
@@ -28,7 +41,7 @@ export const styles = StyleSheet.create({
   title: {
     fontSize: 16,
     fontWeight: "600",
-    marginRight: 4, // small gap before the year
+    marginRight: 4,
   },
   year: {
     fontSize: 14,
@@ -39,13 +52,13 @@ export const styles = StyleSheet.create({
     marginTop: 2,
   },
   genreText: {
-    fontSize: 14,
+    fontSize: 12,
     color: "#111827",
   },
 
   certificate: {
-    width: 20,
-    height: 20,
+    width: 18,
+    height: 18,
     marginTop: 4,
   },
 });
