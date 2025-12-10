@@ -8,32 +8,34 @@ import { useDispatch, useSelector } from "react-redux";
 import { styles } from "./styles";
 import { router } from "expo-router";
 
+
 type movieProps = {
     movie: MovieType,
     cinemaId?: number
+    onLongPress?: () => void;
 };
 
-export function Movie({movie, cinemaId} : movieProps){
+export function Movie({ movie, cinemaId, onLongPress }: movieProps) {
   const handlePress = () => {
-      router.push({
-          pathname: "/movie-details",
-          params: {
-              cinemaId: String(cinemaId),
-              movie: JSON.stringify(movie)
-          }
-      })
-  }
+    router.push({
+      pathname: "/movie-details",
+      params: {
+        cinemaId: String(cinemaId),
+        movie: JSON.stringify(movie),
+      },
+    });
+  };
+
   const dispatch = useDispatch();
   const favIds = useSelector((state: RootState) => state.favorites.ids);
   const movieIdString = movie.id.toString();
   const isFavorite = favIds.includes(movieIdString);
-  
 
   const toggleFavorite = async () => {
     let updated;
 
     if (isFavorite) {
-      updated = favIds.filter(id => id !== movieIdString);
+      updated = favIds.filter((id) => id !== movieIdString);
       dispatch(removeFavorite(movieIdString));
     } else {
       updated = [...favIds, movieIdString];
@@ -44,10 +46,18 @@ export function Movie({movie, cinemaId} : movieProps){
   };
 
   return (
-    <View>
+    <TouchableOpacity
+      onPress={handlePress}
+      onLongPress={onLongPress}
+      activeOpacity={0.9}
+      style={styles.topContainer}   // <- THIS IS NOW THE ROOT
+    >
       <TouchableOpacity
         style={{ position: "absolute", top: 8, right: 8, zIndex: 20 }}
-        onPress={toggleFavorite}
+        onPress={(e) => {
+          e.stopPropagation(); // prevent triggering drag
+          toggleFavorite();
+        }}
       >
         <Ionicons
           name={isFavorite ? "star" : "star-outline"}
@@ -56,21 +66,15 @@ export function Movie({movie, cinemaId} : movieProps){
         />
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={handlePress}>
-        <View style={styles.container}>
-          <Image
-            source={{ uri: movie.poster }}
-            style={styles.poster}
-            resizeMode="cover"
-          />
-          <View style={styles.info}>
-            <Text style={styles.title}>{movie.title}</Text>
-            <Text style={styles.year}>{movie.year}</Text>
-            <Text style={styles.year}>{movie.durationMinutes} min</Text>
-            <Image source={{ uri: movie.certificateImg }} style={styles.certificate} />
-          </View>
+      <View style={styles.container}>
+        <Image source={{ uri: movie.poster }} style={styles.poster} />
+        <View style={styles.info}>
+          <Text style={styles.title}>{movie.title}</Text>
+          <Text style={styles.year}>{movie.year}</Text>
+          <Text style={styles.year}>{movie.durationMinutes} min</Text>
+          <Image source={{ uri: movie.certificateImg }} style={styles.certificate} />
         </View>
-      </TouchableOpacity>
-    </View>
+      </View>
+    </TouchableOpacity>
   );
 }

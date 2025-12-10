@@ -1,6 +1,9 @@
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
+  topContainer:{
+    height:100,
+  },
   container: {
     flexDirection: "row",
     paddingVertical: 8,

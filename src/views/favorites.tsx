@@ -1,31 +1,49 @@
 import { Movie } from "@/components/movies/movies";
 import { useMovies } from "@/hooks/data";
 import { RootState } from "@/src/redux/store";
-import { ScrollView, Text, View } from "react-native";
-import { useSelector } from "react-redux";
+import { Movie as MovieType } from "@/src/types/types";
+import DraggableFlatList from "react-native-draggable-flatlist";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useDispatch, useSelector } from "react-redux";
+import { setFavorites } from "../redux/favorites/favoritesSlice";
+import { saveFavoritesToStorage } from "../services/favoritesStorage";
+
+type FavoriteMovieItem = {
+  key: string;
+  movie: MovieType;
+};
 
 export default function Favorites() {
+  const dispatch = useDispatch();
   const movies = useMovies();
   const favoriteIds = useSelector((state: RootState) => state.favorites.ids);
-  const favoriteMovies = movies.filter(m => favoriteIds.includes(String(m.id)));
-  const sortedMovies = [...favoriteMovies].sort((a, b) =>
-    a.title.localeCompare(b.title)
-  );
-  
-  return (
-    <SafeAreaView>
-      <ScrollView>
-        <View style={{ padding: 16 }}>
-          {sortedMovies.length === 0 && (
-            <Text>No favorites yet</Text>
-          )}
 
-          {sortedMovies.map(movie => (
-            <Movie key={movie.id} movie={movie} />
-          ))}
-        </View>
-      </ScrollView>
+
+  const favoriteMovies: FavoriteMovieItem[] = favoriteIds
+    .map(id => {
+      const movie = movies.find(m => String(m.id) === id);
+      if (!movie) return null;
+      return { key: id, movie };
+    })
+    .filter((m): m is FavoriteMovieItem => m !== null);
+
+
+  const handleDragEnd = async ({ data }: { data: FavoriteMovieItem[] }) => {
+    const newOrder = data.map(item => item.key);
+    dispatch(setFavorites(newOrder));
+    await saveFavoritesToStorage(newOrder);
+  };
+
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <DraggableFlatList
+        data={favoriteMovies}
+        keyExtractor={item => item.key}
+        onDragEnd={handleDragEnd}
+        renderItem={({ item, drag }) => (
+          <Movie movie={item.movie} onLongPress={drag} />
+        )}
+      />
     </SafeAreaView>
   );
 }
