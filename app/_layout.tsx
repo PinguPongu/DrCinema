@@ -45,7 +45,7 @@ function InnerRoot() {
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="cinema-details" options={{ headerShown: false }} />
-          <Stack.Screen name="/movie-details"/>
+          <Stack.Screen name="movie-details" options={{ headerShown: false }}/>
         </Stack>
         <StatusBar style="auto" />
       </ThemeProvider>

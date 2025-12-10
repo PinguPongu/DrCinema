@@ -1,6 +1,7 @@
 import { useCinemas, useMovies } from "@/hooks/data";
-import { View, ScrollView } from "react-native";
+import { ScrollView } from "react-native";
 import  { Cinema }  from "@/components/cinema/cinema"
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Home() {
   const movies = useMovies();
@@ -8,11 +9,11 @@ export default function Home() {
 
   return (
     <ScrollView>
-        <View>
+        <SafeAreaView>
             {cinemas.map((cinema) => (
                 <Cinema key={cinema.id} cinema={cinema} movies={movies}/>
             ))}
-        </View>
+        </SafeAreaView>
     </ScrollView>
   );
 }

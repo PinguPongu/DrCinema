@@ -1,7 +1,10 @@
 import { MovieDetails } from "@/src/views/moviedetails";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function MovieDetailsScreen(){
     return (
-        <MovieDetails />
+        <SafeAreaView>
+            <MovieDetails />
+        </SafeAreaView>
     );
 }
