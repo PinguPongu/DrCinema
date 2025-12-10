@@ -7,6 +7,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 import { setFavorites } from "../redux/favorites/favoritesSlice";
 import { saveFavoritesToStorage } from "../services/favoritesStorage";
+import { Text,View } from "react-native";
 
 type FavoriteMovieItem = {
   key: string;
@@ -37,12 +38,16 @@ export default function Favorites() {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+      <Text>Favorites</Text>
       <DraggableFlatList
         data={favoriteMovies}
         keyExtractor={item => item.key}
         onDragEnd={handleDragEnd}
         renderItem={({ item, drag }) => (
-          <Movie movie={item.movie} onLongPress={drag} />
+          <View>
+            <Text>{2}</Text>
+            <Movie movie={item.movie} onLongPress={drag} />
+          </View>
         )}
       />
     </SafeAreaView>
