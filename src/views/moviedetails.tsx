@@ -11,7 +11,7 @@ export function MovieDetails(){
     const movieData = movie ? JSON.parse(movie) as MovieType : null;
     const cinemaIdInt = cinemaId ? Number(cinemaId) : undefined;
 
-    const showTimeForThisCinema = movieData?.showtimes.find((s) => s.cinema.id === cinemaIdInt);
+    const showTimeForThisCinema = movieData?.showtimes?.find((s) => s.cinema.id === cinemaIdInt);
 
     const schedule = showTimeForThisCinema?.schedule ?? [];
 
@@ -53,9 +53,11 @@ export function MovieDetails(){
           <Text style={styles.title}>{movieData?.title}</Text>
 
           <Text style={styles.subline}>
-            {showTimeForThisCinema?.cinema.name} • {movieData?.year} •{" "}
-            {movieData?.durationMinutes} mínútur
+            {showTimeForThisCinema?.cinema.name} • {movieData?.year}
           </Text>
+          {movieData?.durationMinutes && <Text style={styles.subline}>
+            {movieData?.durationMinutes} mínútur
+          </Text>}
 
           <View style={styles.genreRow}>
             {movieData?.genres.map((genre) => (

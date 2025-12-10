@@ -50,12 +50,12 @@ export function Movie({ movie, cinemaId, onLongPress }: movieProps) {
       onPress={handlePress}
       onLongPress={onLongPress}
       activeOpacity={0.9}
-      style={styles.topContainer}   // <- THIS IS NOW THE ROOT
+      style={styles.topContainer}
     >
       <TouchableOpacity
         style={{ position: "absolute", top: 8, right: 8, zIndex: 20 }}
         onPress={(e) => {
-          e.stopPropagation(); // prevent triggering drag
+          e.stopPropagation();
           toggleFavorite();
         }}
       >
@@ -71,7 +71,6 @@ export function Movie({ movie, cinemaId, onLongPress }: movieProps) {
         <View style={styles.info}>
           <Text style={styles.title}>{movie.title}</Text>
           <Text style={styles.year}>{movie.year}</Text>
-          <Text style={styles.year}>{movie.durationMinutes} min</Text>
           <Image source={{ uri: movie.certificateImg }} style={styles.certificate} />
         </View>
       </View>
