@@ -21,9 +21,9 @@ export function MovieDetails(){
     const getYoutubeId = (url: string | null): string | null => {
         if (!url) return null;
         const patterns = [
-            /v=([^&]+)/,                 // https://www.youtube.com/watch?v=ID
-            /youtu\.be\/([^?]+)/,        // https://youtu.be/ID
-            /embed\/([^?]+)/,            // https://www.youtube.com/embed/ID
+            /v=([^&]+)/,                 
+            /youtu\.be\/([^?]+)/,        
+            /embed\/([^?]+)/,            
         ];
 
         for (const pattern of patterns) {
