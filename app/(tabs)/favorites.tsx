@@ -1,4 +1,4 @@
-import Favorites from "@/src/views/favorites"
+import Favorites from "@/src/views/favorites/favorites"
 
 export default function FavoritesScreen(){
     return (
