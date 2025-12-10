@@ -1,3 +1,5 @@
+import 'react-native-gesture-handler';
+
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
@@ -11,6 +13,9 @@ import { setFavorites } from '@/src/redux/favorites/favoritesSlice';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { useEffect } from 'react';
 import { getToken } from '@/src/redux/features/token/token-slice';
+
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+
 
 export const unstable_settings = {
   anchor: '(tabs)',
@@ -50,9 +55,11 @@ function InnerRoot() {
 
 export default function RootLayout() {
   return (
-    <StoreProvider store={store}>
-      <InnerRoot />
-    </StoreProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <StoreProvider store={store}>
+        <InnerRoot />
+      </StoreProvider>
+    </GestureHandlerRootView>
 
   );
 }
