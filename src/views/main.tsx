@@ -1,16 +1,35 @@
 import { useCinemas, useMovies } from "@/hooks/data";
 import { View, ScrollView } from "react-native";
 import  { Cinema }  from "@/components/cinema/cinema"
+import { useMemo, useState } from "react"
+import  Navbar  from "@/components/navbar/navbar"
 
 export default function Home() {
+  const [search, setSearch] = useState("");
   const movies = useMovies();
   const cinemas = useCinemas();
+
+  const filteredMovies = useMemo(() => {
+    const term = search.trim().toLowerCase();
+    if (!term) return movies;
+
+    return movies.filter((c) => {
+      const title = c.title?.toLowerCase() ?? "";
+      const rating_imdb = c.ratings?.imdb?.toLowerCase() ?? "";
+      const rating_rotten = c.ratings?.rotten_audience?.toLowerCase() ?? "";
+      const actors = c.omdb?.[0]?.Actors?.toLowerCase() ?? "";
+      const directors = c.omdb?.[0]?.Director?.toLowerCase() ?? "";
+      const pg = c.certificate?.is?.toLowerCase() ?? "";
+      return title.includes(term) || rating_imdb.includes(term) || rating_rotten.includes(term) || actors.includes(term) || directors.includes(term) || pg.includes(term);
+    });
+  }, [movies, search]);
 
   return (
     <ScrollView>
         <View>
+          <Navbar value={search} onChangeText={setSearch} />
             {cinemas.map((cinema) => (
-                <Cinema key={cinema.id} cinema={cinema} movies={movies}/>
+                <Cinema key={cinema.id} cinema={cinema} movies={filteredMovies}/>
             ))}
         </View>
     </ScrollView>
