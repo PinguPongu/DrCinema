@@ -8,6 +8,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 import { setFavorites } from "../../redux/favorites/favoritesSlice";
 import { saveFavoritesToStorage } from "../../services/favoritesStorage";
+import { styles } from "./styles";
 
 type FavoriteMovieItem = {
   key: string;
@@ -51,36 +52,3 @@ export default function Favorites() {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingHorizontal: 16,
-    paddingBottom: 50,
-    
-  },
-
-
-  title: {
-    fontSize: 28,
-    fontWeight: "800",
-    marginVertical: 14,
-
-  },
-
-  row: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#fff",
-    padding: 14,
-    marginBottom: 12,
-    borderRadius: 12,
-  },
-
-  number: {
-    fontSize: 20,
-    fontWeight: "700",
-    color: "#999999ff",
-    marginRight: 14,
-  },
-});
