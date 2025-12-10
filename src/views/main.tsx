@@ -3,6 +3,7 @@ import { View, ScrollView } from "react-native";
 import  { Cinema }  from "@/components/cinema/cinema"
 import { useMemo, useState } from "react"
 import  Navbar  from "@/components/navbar/navbar"
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Home() {
   const [search, setSearch] = useState("");
@@ -15,8 +16,8 @@ export default function Home() {
 
     return movies.filter((c) => {
       const title = c.title?.toLowerCase() ?? "";
-      const rating_imdb = c.ratings?.imdb?.toLowerCase() ?? "";
-      const rating_rotten = c.ratings?.rotten_audience?.toLowerCase() ?? "";
+      const rating_imdb = c.omdb?.[0]?.imdbRating?.toLowerCase() ?? "";
+      const rating_rotten = c.omdb?.[0]?.tomatoRating?.toLowerCase() ?? "";
       const actors = c.omdb?.[0]?.Actors?.toLowerCase() ?? "";
       const directors = c.omdb?.[0]?.Director?.toLowerCase() ?? "";
       const pg = c.certificate?.is?.toLowerCase() ?? "";
@@ -25,13 +26,15 @@ export default function Home() {
   }, [movies, search]);
 
   return (
-    <ScrollView>
-        <View>
-          <Navbar value={search} onChangeText={setSearch} />
-            {cinemas.map((cinema) => (
-                <Cinema key={cinema.id} cinema={cinema} movies={filteredMovies}/>
-            ))}
-        </View>
-    </ScrollView>
+    <SafeAreaView>
+      <ScrollView>
+          <View>
+            <Navbar value={search} onChangeText={setSearch} />
+              {cinemas.map((cinema) => (
+                  <Cinema key={cinema.id} cinema={cinema} movies={filteredMovies}/>
+              ))}
+          </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
