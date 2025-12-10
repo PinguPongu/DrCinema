@@ -2,12 +2,13 @@ import { Movie } from "@/components/movies/movies";
 import { useMovies, useUpcomingMovies } from "@/hooks/data";
 import { RootState } from "@/src/redux/store";
 import { Movie as MovieType } from "@/src/types/types";
+import { Text, View, StyleSheet } from "react-native";
 import DraggableFlatList from "react-native-draggable-flatlist";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
-import { setFavorites } from "../redux/favorites/favoritesSlice";
-import { saveFavoritesToStorage } from "../services/favoritesStorage";
-import { Text,View } from "react-native";
+import { setFavorites } from "../../redux/favorites/favoritesSlice";
+import { saveFavoritesToStorage } from "../../services/favoritesStorage";
+import { styles } from "./styles";
 
 type FavoriteMovieItem = {
   key: string;
@@ -38,14 +39,14 @@ export default function Favorites() {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-      <Text>Favorites</Text>
+      <Text style={styles.title}>Favorites</Text>
       <DraggableFlatList
         data={favoriteMovies}
         keyExtractor={item => item.key}
         onDragEnd={handleDragEnd}
-        renderItem={({ item, drag }) => (
+        renderItem={({ item, drag, getIndex}) => (
           <View>
-            <Text>{2}</Text>
+            <Text style={styles.number}>{(getIndex() ?? 0) +1}.</Text>
             <Movie movie={item.movie} onLongPress={drag} />
           </View>
         )}

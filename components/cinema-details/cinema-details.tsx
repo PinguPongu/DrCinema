@@ -4,6 +4,7 @@ import { styles } from "./styles";
 import { Cinema } from "../cinema/cinema";
 import { useMovies } from "@/hooks/data";
 import { IconSymbol } from '@/components/ui/icon-symbol';
+import { MaterialIcons } from "@expo/vector-icons";
 
 type CinemaProps ={
   cinema: CinemaType;
@@ -31,16 +32,16 @@ export default function CinemaDetailsItem({ cinema } : CinemaProps) {
         </View>
       )}
       <View style={styles.smallContainer}>
-        <IconSymbol name="globe" color={"black"}></IconSymbol>
+        <MaterialIcons name="location-pin" color={"black"} size={25}></MaterialIcons>
         <Text style={styles.extra}>{cinema.address}, </Text>
         <Text>{cinema.city}</Text>
       </View>
       <View style={styles.smallContainer}>
-        <IconSymbol name="phone" color={"black"}></IconSymbol>
+        <MaterialIcons name="phone" color={"black"} size={25}></MaterialIcons>
         <Text style={styles.extra}>{cinema.phone}</Text>
       </View>
       <View style={styles.smallContainer}>
-        <IconSymbol name="link" color={"black"}></IconSymbol>
+        <MaterialIcons name="link" color={"black"} size={25}></MaterialIcons>
         <Text style={styles.extra}>{cinema.website}</Text>
       </View>
       <Cinema cinema={cinema} movies={movies}/>
