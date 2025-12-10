@@ -11,7 +11,6 @@ export default function Upcoming() {
     a.year.localeCompare(b.year)
   );
   
-  console.log(upcomingMovies);
   return (
     <ScrollView>
         <SafeAreaView style={styles.topContainer}>

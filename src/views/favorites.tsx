@@ -1,5 +1,5 @@
 import { Movie } from "@/components/movies/movies";
-import { useMovies } from "@/hooks/data";
+import { useMovies, useUpcomingMovies } from "@/hooks/data";
 import { RootState } from "@/src/redux/store";
 import { Movie as MovieType } from "@/src/types/types";
 import DraggableFlatList from "react-native-draggable-flatlist";
@@ -16,17 +16,18 @@ type FavoriteMovieItem = {
 export default function Favorites() {
   const dispatch = useDispatch();
   const movies = useMovies();
+  const upComingMovies =useUpcomingMovies();
   const favoriteIds = useSelector((state: RootState) => state.favorites.ids);
 
-
-  const favoriteMovies: FavoriteMovieItem[] = favoriteIds
+  let favoriteMovies: FavoriteMovieItem[] = favoriteIds
     .map(id => {
-      const movie = movies.find(m => String(m.id) === id);
+      const movie =
+        movies.find(m => String(m.id) === id) ??
+        upComingMovies.find(m => String(m.id) === id);
       if (!movie) return null;
       return { key: id, movie };
     })
     .filter((m): m is FavoriteMovieItem => m !== null);
-
 
   const handleDragEnd = async ({ data }: { data: FavoriteMovieItem[] }) => {
     const newOrder = data.map(item => item.key);
@@ -35,7 +36,7 @@ export default function Favorites() {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <DraggableFlatList
         data={favoriteMovies}
         keyExtractor={item => item.key}
