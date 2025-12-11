@@ -6,14 +6,30 @@ import YoutubePlayer from "react-native-youtube-iframe";
 import { ShareMovieButton } from "@/components/linking/linking";
 import { Linking as Link } from "react-native";
 import  Review from "@/components/review/review";
+import { useMovies } from "@/hooks/data";
 
 
 export function MovieDetails(){
     const { cinemaId, movieId, movie} = useLocalSearchParams<{cinemaId?:string; movieId?:string; movie?:string}>();
-    const movieData = movie ? JSON.parse(movie) as MovieType : null;
+    let movieData = movie ? JSON.parse(movie) as MovieType : null;
     const cinemaIdInt = cinemaId ? Number(cinemaId) : undefined;
 
+    const movies: MovieType[] = useMovies();
+    
     const showTimeForThisCinema = movieData?.showtimes?.find((s) => s.cinema.id === cinemaIdInt);
+
+
+    if (movie) {
+      try {
+        movieData = JSON.parse(movie) as MovieType;
+      } catch (e) {
+        console.warn("Failed to parse movie param:", e);
+      }
+    }
+
+    if (!movieData && movieId) {
+      movieData = movies.find(m => m.id === Number(movieId));
+    }
 
     const schedule = showTimeForThisCinema?.schedule ?? [];
 
@@ -150,7 +166,7 @@ export function MovieDetails(){
       </View>
     </>)}
     <Review id={Number(movieData?.id)}/>
-    <ShareMovieButton cinemaId={Number(cinemaId)} movieId={Number(movieId)}/>
+    <ShareMovieButton cinemaId={Number(cinemaId)} movieId={Number(movieId)} />
     </ScrollView>
   );
 }

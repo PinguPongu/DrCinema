@@ -5,7 +5,7 @@ function createMovieLink(cinemaId: number | string, movieId: number | string){
     return Linking.createURL("/movie-details", {
         queryParams:{
             cinemaId: String(cinemaId),
-            movieId: String(movieId)
+            movieId: String(movieId),
         }
     })
 }
@@ -14,6 +14,7 @@ export function ShareMovieButton({ cinemaId, movieId }: { cinemaId: number; movi
 
   const onShare = async () => {
     const url = createMovieLink(cinemaId, movieId);
+    console.log(url);
 
     await Share.share({
       message: `Check out this movie: ${url}`,
