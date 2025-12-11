@@ -1,16 +1,17 @@
+import { ShareFavoriteButton } from "@/components/linking/linking";
 import { Movie } from "@/components/movies/movies";
 import { useMovies, useUpcomingMovies } from "@/hooks/data";
 import { RootState } from "@/src/redux/store";
 import { Movie as MovieType } from "@/src/types/types";
-import { Text, View, StyleSheet } from "react-native";
+import { useLocalSearchParams } from "expo-router";
+import { Text, View } from "react-native";
 import DraggableFlatList from "react-native-draggable-flatlist";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 import { setFavorites } from "../../redux/favorites/favoritesSlice";
 import { saveFavoritesToStorage } from "../../services/favoritesStorage";
 import { styles } from "./styles";
-import { ShareFavoriteButton } from "@/components/linking/linking";
-import { useLocalSearchParams } from "expo-router";
+
 
 type FavoriteMovieItem = {
   key: string;
@@ -47,7 +48,7 @@ export default function Favorites() {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+    <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Favorites</Text>
       <DraggableFlatList
         data={favoriteMovies}
@@ -60,7 +61,9 @@ export default function Favorites() {
           </View>
         )}
       />
-      <ShareFavoriteButton movieId={usedIds}/>
+      {movieId !== "undefined" && 
+        <ShareFavoriteButton movieId={usedIds}/>
+      }
     </SafeAreaView>
   );
 }
