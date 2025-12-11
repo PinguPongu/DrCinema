@@ -3,10 +3,9 @@ import { Image, Text, View, ScrollView, TouchableOpacity } from "react-native";
 import { Movie as MovieType } from "../types/types";
 import { styles } from "./styles";
 import YoutubePlayer from "react-native-youtube-iframe";
-import { Linking } from 'react-native';
-import Review from "@/components/review/review";
 import { ShareMovieButton } from "@/components/linking/linking";
-
+import { Linking as Link } from "react-native";
+import  Review from "@/components/review/review";
 
 
 export function MovieDetails(){
@@ -100,9 +99,9 @@ export function MovieDetails(){
                 onPress={async () => {
                   const url = showtime.purchase_url;
 
-                  const supported = await Linking.canOpenURL(url);
+                  const supported = await Link.canOpenURL(url);
                   if (supported) {
-                    await Linking.openURL(url);
+                    await Link.openURL(url);
                   } else {
                     console.warn("Don't know how to open URI: " + url);
                   }
@@ -149,9 +148,9 @@ export function MovieDetails(){
           </Text>
         )}
       </View>
-      <ShareMovieButton cinemaId={Number(cinemaId)} movieId={Number(movieId)}/>
     </>)}
     <Review id={Number(movieData?.id)}/>
+    <ShareMovieButton cinemaId={Number(cinemaId)} movieId={Number(movieId)}/>
     </ScrollView>
   );
 }
