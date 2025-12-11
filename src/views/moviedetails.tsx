@@ -149,7 +149,7 @@ export function MovieDetails(){
         )}
       </View>
     </>)}
-    <Review id={movieData?.id}/>
+    <Review id={Number(movieData?.id)}/>
     </ScrollView>
   );
 }
