@@ -1,6 +1,5 @@
 import { useLocalSearchParams } from "expo-router";
 import { Image, Text, View, ScrollView, TouchableOpacity } from "react-native";
-import { Movie as MovieType } from "../types/types";
 import { styles } from "./styles";
 import YoutubePlayer from "react-native-youtube-iframe";
 import { ShareMovieButton } from "@/components/linking/linking";
@@ -9,30 +8,13 @@ import  Review from "@/components/review/review";
 import { useMovies } from "@/hooks/data";
 
 
-export function MovieDetails(){
-    const { cinemaId, movieId, movie} = useLocalSearchParams<{cinemaId?:string; movieId?:string; movie?:string}>();
-    let movieData = movie ? JSON.parse(movie) as MovieType : null;
+export function MovieDetails() {
+    const { cinemaId, movieId } = useLocalSearchParams<{ cinemaId?: string; movieId?: string }>();
+    const movies = useMovies();
+    const movieData = movies?.find((m) => String(m.id) === String(movieId));
     const cinemaIdInt = cinemaId ? Number(cinemaId) : undefined;
-
-    const movies: MovieType[] = useMovies();
-    
     const showTimeForThisCinema = movieData?.showtimes?.find((s) => s.cinema.id === cinemaIdInt);
-
-
-    if (movie) {
-      try {
-        movieData = JSON.parse(movie) as MovieType;
-      } catch (e) {
-        console.warn("Failed to parse movie param:", e);
-      }
-    }
-
-    if (!movieData && movieId) {
-      movieData = movies.find(m => m.id === Number(movieId));
-    }
-
     const schedule = showTimeForThisCinema?.schedule ?? [];
-
     const firstTrailerUrl: string | null =  movieData?.trailers?.[0]?.results?.[0]?.url ?? null;
 
     const getYoutubeId = (url: string | null): string | null => {
