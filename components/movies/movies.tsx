@@ -22,6 +22,7 @@ export function Movie({ movie, cinemaId, onLongPress }: movieProps) {
       params: {
         cinemaId: String(cinemaId),
         movie: JSON.stringify(movie),
+        movieId: String(movie.id)
       },
     });
   };

@@ -3,13 +3,15 @@ import { Image, Text, View, ScrollView, TouchableOpacity } from "react-native";
 import { Movie as MovieType } from "../types/types";
 import { styles } from "./styles";
 import YoutubePlayer from "react-native-youtube-iframe";
-import { Linking } from 'react-native';
-import Review from "@/components/review/review";
-
+import  Linking  from 'expo-linking';
+import { ShareMovieButton } from "@/components/linking/linking";
+import { Button } from "@react-navigation/elements";
+import { Linking as Link } from "react-native";
+import  Review from "@/components/review/review";
 
 
 export function MovieDetails(){
-    const { cinemaId, movie} = useLocalSearchParams<{cinemaId?:string; movie?:string}>();
+    const { cinemaId, movieId, movie} = useLocalSearchParams<{cinemaId?:string; movieId?:string; movie?:string}>();
     const movieData = movie ? JSON.parse(movie) as MovieType : null;
     const cinemaIdInt = cinemaId ? Number(cinemaId) : undefined;
 
@@ -99,9 +101,9 @@ export function MovieDetails(){
                 onPress={async () => {
                   const url = showtime.purchase_url;
 
-                  const supported = await Linking.canOpenURL(url);
+                  const supported = await Link.canOpenURL(url);
                   if (supported) {
-                    await Linking.openURL(url);
+                    await Link.openURL(url);
                   } else {
                     console.warn("Don't know how to open URI: " + url);
                   }
@@ -150,6 +152,7 @@ export function MovieDetails(){
       </View>
     </>)}
     <Review id={Number(movieData?.id)}/>
+    <ShareMovieButton cinemaId={Number(cinemaId)} movieId={Number(movieId)}/>
     </ScrollView>
   );
 }
