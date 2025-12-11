@@ -5,11 +5,12 @@ import { styles } from "./styles";
 import YoutubePlayer from "react-native-youtube-iframe";
 import { Linking } from 'react-native';
 import Review from "@/components/review/review";
+import { ShareMovieButton } from "@/components/linking/linking";
 
 
 
 export function MovieDetails(){
-    const { cinemaId, movie} = useLocalSearchParams<{cinemaId?:string; movie?:string}>();
+    const { cinemaId, movieId, movie} = useLocalSearchParams<{cinemaId?:string; movieId?:string; movie?:string}>();
     const movieData = movie ? JSON.parse(movie) as MovieType : null;
     const cinemaIdInt = cinemaId ? Number(cinemaId) : undefined;
 
@@ -148,6 +149,7 @@ export function MovieDetails(){
           </Text>
         )}
       </View>
+      <ShareMovieButton cinemaId={Number(cinemaId)} movieId={Number(movieId)}/>
     </>)}
     <Review id={Number(movieData?.id)}/>
     </ScrollView>
