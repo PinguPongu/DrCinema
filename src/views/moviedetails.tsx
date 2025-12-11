@@ -1,20 +1,18 @@
 import { useLocalSearchParams } from "expo-router";
 import { Image, Text, View, ScrollView, TouchableOpacity } from "react-native";
-import { Movie as MovieType } from "../types/types";
 import { styles } from "./styles";
 import YoutubePlayer from "react-native-youtube-iframe";
-import  Linking  from 'expo-linking';
 import { ShareMovieButton } from "@/components/linking/linking";
-import { Button } from "@react-navigation/elements";
 import { Linking as Link } from "react-native";
 import  Review from "@/components/review/review";
 import { useMovies } from "@/hooks/data";
+import { Movie as MovieType } from "../types/types";
 
 
 export function MovieDetails() {
-    const { cinemaId, movieId } = useLocalSearchParams<{ cinemaId?: string; movieId?: string }>();
+    const { cinemaId, movieId, movie } = useLocalSearchParams<{ cinemaId?: string; movieId?: string; movie?: string}>();
     const movies = useMovies();
-    const movieData = movies?.find((m) => String(m.id) === String(movieId));
+    const movieData = movie ? JSON.parse(movie) as MovieType : movies?.find((m) => String(m.id) === String(movieId));
     const cinemaIdInt = cinemaId ? Number(cinemaId) : undefined;
     const showTimeForThisCinema = movieData?.showtimes?.find((s) => s.cinema.id === cinemaIdInt);
     const schedule = showTimeForThisCinema?.schedule ?? [];

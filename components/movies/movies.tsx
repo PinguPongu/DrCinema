@@ -22,6 +22,7 @@ export function Movie({ movie, cinemaId, onLongPress }: movieProps) {
       pathname: "/movie-details",
       params: {
         cinemaId: String(cinemaId),
+        movie: JSON.stringify(movie),
         movieId: String(movie.id)
       },
     });

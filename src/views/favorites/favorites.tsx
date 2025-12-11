@@ -9,6 +9,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { setFavorites } from "../../redux/favorites/favoritesSlice";
 import { saveFavoritesToStorage } from "../../services/favoritesStorage";
 import { styles } from "./styles";
+import { ShareFavoriteButton } from "@/components/linking/linking";
+import { useLocalSearchParams } from "expo-router";
 
 type FavoriteMovieItem = {
   key: string;
@@ -16,12 +18,19 @@ type FavoriteMovieItem = {
 };
 
 export default function Favorites() {
+
+  const { movieId } = useLocalSearchParams<{ movieId?:string }>();
+  
   const dispatch = useDispatch();
   const movies = useMovies();
   const upComingMovies =useUpcomingMovies();
+
   const favoriteIds = useSelector((state: RootState) => state.favorites.ids);
 
-  const favoriteMovies: FavoriteMovieItem[] = favoriteIds
+  const usedIds: string[] = movieId ? JSON.parse(movieId) : favoriteIds; 
+
+
+  const favoriteMovies: FavoriteMovieItem[] = usedIds
     .map(id => {
       const movie =
         movies.find(m => String(m.id) === id) ??
@@ -51,6 +60,7 @@ export default function Favorites() {
           </View>
         )}
       />
+      <ShareFavoriteButton movieId={usedIds}/>
     </SafeAreaView>
   );
 }
