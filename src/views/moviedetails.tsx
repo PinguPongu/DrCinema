@@ -6,16 +6,18 @@ import { ShareMovieButton } from "@/components/linking/linking";
 import { Linking as Link } from "react-native";
 import  Review from "@/components/review/review";
 import { useMovies } from "@/hooks/data";
+import { Movie as MovieType } from "@/src/types/types";
 
 
 export function MovieDetails() {
-    const { cinemaId, movieId } = useLocalSearchParams<{ cinemaId?: string; movieId?: string }>();
+    const { cinemaId, movieId, movie } = useLocalSearchParams<{ cinemaId?: string; movieId?: string; movie?: string; }>();
     const movies = useMovies();
-    const movieData = movies?.find((m) => String(m.id) === String(movieId));
+    const movieData = movie ? JSON.parse(movie) as MovieType : movies.find(m => m.id === Number(movieId));
     const cinemaIdInt = cinemaId ? Number(cinemaId) : undefined;
     const showTimeForThisCinema = movieData?.showtimes?.find((s) => s.cinema.id === cinemaIdInt);
     const schedule = showTimeForThisCinema?.schedule ?? [];
     const firstTrailerUrl: string | null =  movieData?.trailers?.[0]?.results?.[0]?.url ?? null;
+
 
     const getYoutubeId = (url: string | null): string | null => {
         if (!url) return null;
@@ -147,8 +149,12 @@ export function MovieDetails() {
         )}
       </View>
     </>)}
-    <Review id={Number(movieData?.id)}/>
-    <ShareMovieButton cinemaId={Number(cinemaId)} movieId={Number(movieId)} />
+    {cinemaId !== "undefined" &&
+      <View>
+        <Review id={Number(movieData?.id)}/>
+        <ShareMovieButton cinemaId={Number(cinemaId)} movieId={Number(movieId)} />
+      </View>
+    }
     </ScrollView>
   );
 }

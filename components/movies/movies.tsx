@@ -7,7 +7,6 @@ import { Image, Text, TouchableOpacity, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { styles } from "./styles";
 import { router } from "expo-router";
-import { useMovies } from "@/hooks/data";
 
 
 type movieProps = {
@@ -22,7 +21,8 @@ export function Movie({ movie, cinemaId, onLongPress }: movieProps) {
       pathname: "/movie-details",
       params: {
         cinemaId: String(cinemaId),
-        movieId: String(movie.id)
+        movieId: String(movie.id),
+        movie: JSON.stringify(movie),
       },
     });
   };
