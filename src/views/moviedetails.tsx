@@ -8,17 +8,16 @@ import { ShareMovieButton } from "@/components/linking/linking";
 import { Button } from "@react-navigation/elements";
 import { Linking as Link } from "react-native";
 import  Review from "@/components/review/review";
+import { useMovies } from "@/hooks/data";
 
 
-export function MovieDetails(){
-    const { cinemaId, movieId, movie} = useLocalSearchParams<{cinemaId?:string; movieId?:string; movie?:string}>();
-    const movieData = movie ? JSON.parse(movie) as MovieType : null;
+export function MovieDetails() {
+    const { cinemaId, movieId } = useLocalSearchParams<{ cinemaId?: string; movieId?: string }>();
+    const movies = useMovies();
+    const movieData = movies?.find((m) => String(m.id) === String(movieId));
     const cinemaIdInt = cinemaId ? Number(cinemaId) : undefined;
-
     const showTimeForThisCinema = movieData?.showtimes?.find((s) => s.cinema.id === cinemaIdInt);
-
     const schedule = showTimeForThisCinema?.schedule ?? [];
-
     const firstTrailerUrl: string | null =  movieData?.trailers?.[0]?.results?.[0]?.url ?? null;
 
     const getYoutubeId = (url: string | null): string | null => {
