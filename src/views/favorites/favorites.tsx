@@ -3,7 +3,7 @@ import { Movie } from "@/components/movies/movies";
 import { useMovies, useUpcomingMovies } from "@/hooks/data";
 import { RootState } from "@/src/redux/store";
 import { Movie as MovieType } from "@/src/types/types";
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { Text, View } from "react-native";
 import DraggableFlatList from "react-native-draggable-flatlist";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -21,6 +21,7 @@ type FavoriteMovieItem = {
 
 export default function Favorites() {
   const { movieId } = useLocalSearchParams<{ movieId?: string }>();
+  const router =useRouter();
 
   const dispatch = useDispatch();
   const movies = useMovies();
@@ -35,7 +36,13 @@ export default function Favorites() {
     useCallback(() => {
       if (movieId) setSharedMode(true);
       else setSharedMode(false);
-    }, [movieId])
+
+      return () => {
+        if (movieId) {
+          router.setParams({ movieId: undefined });
+        }
+      };
+    }, [movieId, router])
   );
 
   // Determine which favorite IDs to use
