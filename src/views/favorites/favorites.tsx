@@ -11,7 +11,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { setFavorites } from "../../redux/favorites/favoritesSlice";
 import { saveFavoritesToStorage } from "../../services/favoritesStorage";
 import { styles } from "./styles";
-
+import { useState, useCallback } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 
 type FavoriteMovieItem = {
   key: string;
@@ -19,51 +20,73 @@ type FavoriteMovieItem = {
 };
 
 export default function Favorites() {
+  const { movieId } = useLocalSearchParams<{ movieId?: string }>();
 
-  const { movieId } = useLocalSearchParams<{ movieId?:string }>();
-  
   const dispatch = useDispatch();
   const movies = useMovies();
-  const upComingMovies =useUpcomingMovies();
-
+  const upcomingMovies = useUpcomingMovies();
   const favoriteIds = useSelector((state: RootState) => state.favorites.ids);
 
-  const usedIds: string[] = movieId ? JSON.parse(movieId) : favoriteIds; 
+  // Tracks whether you're viewing a shared list
+  const [sharedMode, setSharedMode] = useState(false);
 
+  // When screen comes into focus, determine which mode we’re in
+  useFocusEffect(
+    useCallback(() => {
+      if (movieId) setSharedMode(true);
+      else setSharedMode(false);
+    }, [movieId])
+  );
 
+  // Determine which favorite IDs to use
+  const usedIds: string[] =
+    sharedMode && movieId ? JSON.parse(movieId) : favoriteIds;
+
+  // Build movie objects from IDs
   const favoriteMovies: FavoriteMovieItem[] = usedIds
-    .map(id => {
+    .map((id) => {
       const movie =
-        movies.find(m => String(m.id) === id) ??
-        upComingMovies.find(m => String(m.id) === id);
+        movies.find((m) => String(m.id) === id) ??
+        upcomingMovies.find((m) => String(m.id) === id);
+
       if (!movie) return null;
       return { key: id, movie };
     })
     .filter((m): m is FavoriteMovieItem => m !== null);
 
-  const handleDragEnd = async ({ data }: { data: FavoriteMovieItem[] }) => {
-    const newOrder = data.map(item => item.key);
+  const handleDragEnd = async ({
+    data,
+  }: {
+    data: FavoriteMovieItem[];
+  }) => {
+    if (sharedMode) return; // Prevent editing shared lists
+
+    const newOrder = data.map((item) => item.key);
     dispatch(setFavorites(newOrder));
     await saveFavoritesToStorage(newOrder);
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Favorites</Text>
+      <Text style={styles.title}>
+        {sharedMode ? "Shared Favorites" : "Favorites"}
+      </Text>
+
       <DraggableFlatList
         data={favoriteMovies}
-        keyExtractor={item => item.key}
+        keyExtractor={(item) => item.key}
         onDragEnd={handleDragEnd}
-        renderItem={({ item, drag, getIndex}) => (
+        renderItem={({ item, drag, getIndex }) => (
           <View>
-            <Text style={styles.number}>{(getIndex() ?? 0) +1}.</Text>
-            <Movie movie={item.movie} onLongPress={drag} />
+            <Text style={styles.number}>{(getIndex() ?? 0) + 1}.</Text>
+            <Movie movie={item.movie} onLongPress={sharedMode ? undefined : drag} />
           </View>
         )}
       />
-      {movieId !== "undefined" && 
-        <ShareFavoriteButton movieId={usedIds}/>
-      }
+
+      {!sharedMode && (
+        <ShareFavoriteButton movieId={usedIds} />
+      )}
     </SafeAreaView>
   );
 }
