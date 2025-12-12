@@ -1,13 +1,15 @@
-import { Tabs } from 'expo-router';
+import { Tabs, useRouter } from 'expo-router';
 import React from 'react';
 
 import { HapticTab } from '@/components/haptic-tab';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import { MaterialIcons } from '@expo/vector-icons';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const router = useRouter();
 
   return (
     <Tabs
@@ -24,10 +26,30 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="favorites"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: 'Favorites',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="star.fill" color={color} />,
+        }}
+        listeners={{
+          tabPress: (e) => {
+            e.preventDefault();
+            router.replace('/(tabs)/favorites');
+          }
+        }}
+      />
+      <Tabs.Screen
+        name="cinemas"
+        options={{
+          title: 'Cinemas',
+          tabBarIcon: ({ color }) => <MaterialIcons size={28} name="theaters" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="upcoming"
+        options={{
+          title: 'Upcoming',
+          tabBarIcon: ({ color }) => <MaterialIcons size={28} name="calendar-month" color={color} />,
         }}
       />
     </Tabs>

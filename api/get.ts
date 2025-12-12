@@ -1,6 +1,6 @@
 const API_BASE = "https://api.kvikmyndir.is";
 
-async function apiGet(path: string, token: string) {
+export async function apiGet(path: string, token: string) {
   const res = await fetch(`${API_BASE}${path}`, {
     method: "GET",
     headers: {
