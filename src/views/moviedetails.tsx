@@ -3,9 +3,8 @@ import { Image, Text, View, ScrollView, TouchableOpacity } from "react-native";
 import { Movie as MovieType } from "../types/types";
 import { styles } from "./styles";
 import YoutubePlayer from "react-native-youtube-iframe";
-import  Linking  from 'expo-linking';
+import  { Linking }  from 'react-native';
 import { ShareMovieButton } from "@/components/linking/linking";
-import { Button } from "@react-navigation/elements";
 
 
 
