@@ -17,6 +17,8 @@ import { getToken } from '@/src/redux/features/token/token-slice';
 
 
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { loadReviewsFromStorage } from '@/src/services/reviewStorage';
+import { setReviews } from '@/src/redux/reviews/reviewsSlice';
 
 
 export const unstable_settings = {
@@ -42,12 +44,20 @@ function InnerRoot() {
     initFavorites();
   }, [dispatch]);
 
+  useEffect(() => {
+    async function initReviews() {
+      const reviews = await loadReviewsFromStorage();
+      dispatch(setReviews(reviews));
+    }
+    initReviews();
+  }, [dispatch]);
+
   return (
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="cinema-details" options={{ headerShown: false }} />
-          <Stack.Screen name="/movie-details"/>
+          <Stack.Screen name="movie-details" options={{ headerShown: false }}/>
         </Stack>
         <StatusBar style="auto" />
       </ThemeProvider>

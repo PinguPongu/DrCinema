@@ -7,6 +7,7 @@ import { Image, Text, TouchableOpacity, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { styles } from "./styles";
 import { router } from "expo-router";
+import { useMovies } from "@/hooks/data";
 
 
 type movieProps = {

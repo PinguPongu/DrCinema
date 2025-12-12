@@ -24,3 +24,25 @@ export function ShareMovieButton({ cinemaId, movieId }: { cinemaId: number; movi
         <Button title="Share movie" onPress={onShare}/>
     );
 }
+
+function createFavoritesLink(movieId: string[]){
+    return Linking.createURL("/favorites", {
+        queryParams:{
+            movieId: JSON.stringify(movieId)
+        }
+    })
+}
+
+export function ShareFavoriteButton({ movieId }: { movieId: string[] }) {
+  const onShare = async () => {
+    const url = createFavoritesLink(movieId);
+
+    await Share.share({
+      message: `Check out these favorites: ${url}`,
+    });
+  };
+
+    return (
+        <Button title="Share Favorites" onPress={onShare}/>
+    );
+}

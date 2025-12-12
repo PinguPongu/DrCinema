@@ -1,5 +1,5 @@
 import { useCinemas, useMovies } from "@/hooks/data";
-import { View, ScrollView } from "react-native";
+import { ScrollView, View } from "react-native";
 import  { Cinema }  from "@/components/cinema/cinema"
 import { useMemo, useState } from "react"
 import  Navbar  from "@/components/navbar/navbar"

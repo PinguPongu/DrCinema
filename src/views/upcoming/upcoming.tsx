@@ -7,11 +7,14 @@ import { styles } from "./styles";
 
 export default function Upcoming() {
   const upcomingMovies = useUpcomingMovies();
-  console.log(upcomingMovies);
+  const sortedMovies = [...upcomingMovies].sort((a, b) =>
+    a.year.localeCompare(b.year)
+  );
+  
   return (
     <ScrollView>
         <SafeAreaView style={styles.topContainer}>
-            {upcomingMovies.map((movie) => (
+            {sortedMovies.map((movie) => (
               <Movie key={movie.id} movie={movie}/>
             ))}         
         </SafeAreaView>

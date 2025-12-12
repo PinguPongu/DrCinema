@@ -1,22 +1,21 @@
 import { useLocalSearchParams } from "expo-router";
 import { Image, Text, View, ScrollView, TouchableOpacity } from "react-native";
-import { Movie as MovieType } from "../types/types";
 import { styles } from "./styles";
 import YoutubePlayer from "react-native-youtube-iframe";
-import  { Linking }  from 'react-native';
 import { ShareMovieButton } from "@/components/linking/linking";
+import { Linking as Link } from "react-native";
+import  Review from "@/components/review/review";
+import { useMovies } from "@/hooks/data";
+import { Movie as MovieType } from "../types/types";
 
 
-
-export function MovieDetails(){
-    const { cinemaId, movieId, movie} = useLocalSearchParams<{cinemaId?:string; movieId?:string; movie?:string}>();
-    const movieData = movie ? JSON.parse(movie) as MovieType : null;
+export function MovieDetails() {
+    const { cinemaId, movieId, movie } = useLocalSearchParams<{ cinemaId?: string; movieId?: string; movie?: string}>();
+    const movies = useMovies();
+    const movieData = movie ? JSON.parse(movie) as MovieType : movies?.find((m) => String(m.id) === String(movieId));
     const cinemaIdInt = cinemaId ? Number(cinemaId) : undefined;
-
     const showTimeForThisCinema = movieData?.showtimes?.find((s) => s.cinema.id === cinemaIdInt);
-
     const schedule = showTimeForThisCinema?.schedule ?? [];
-
     const firstTrailerUrl: string | null =  movieData?.trailers?.[0]?.results?.[0]?.url ?? null;
 
     const getYoutubeId = (url: string | null): string | null => {
@@ -99,9 +98,9 @@ export function MovieDetails(){
                 onPress={async () => {
                   const url = showtime.purchase_url;
 
-                  const supported = await Linking.canOpenURL(url);
+                  const supported = await Link.canOpenURL(url);
                   if (supported) {
-                    await Linking.openURL(url);
+                    await Link.openURL(url);
                   } else {
                     console.warn("Don't know how to open URI: " + url);
                   }
@@ -148,8 +147,9 @@ export function MovieDetails(){
           </Text>
         )}
       </View>
-      <ShareMovieButton cinemaId={Number(cinemaId)} movieId={Number(movieId)}/>
     </>)}
+    <Review id={Number(movieData?.id)}/>
+    <ShareMovieButton cinemaId={Number(cinemaId)} movieId={Number(movieId)}/>
     </ScrollView>
   );
 }

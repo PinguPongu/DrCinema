@@ -32,16 +32,16 @@ export default function CinemaDetailsItem({ cinema } : CinemaProps) {
         </View>
       )}
       <View style={styles.smallContainer}>
-        <MaterialIcons name="location-pin" color={"black"} size={30}></MaterialIcons>
+        <MaterialIcons name="location-pin" color={"black"} size={25}></MaterialIcons>
         <Text style={styles.extra}>{cinema.address}, </Text>
         <Text>{cinema.city}</Text>
       </View>
       <View style={styles.smallContainer}>
-        <MaterialIcons name="phone" color={"black"} size={30}></MaterialIcons>
+        <MaterialIcons name="phone" color={"black"} size={25}></MaterialIcons>
         <Text style={styles.extra}>{cinema.phone}</Text>
       </View>
       <View style={styles.smallContainer}>
-        <MaterialIcons name="link" color={"black"} size={30}></MaterialIcons>
+        <MaterialIcons name="link" color={"black"} size={25}></MaterialIcons>
         <Text style={styles.extra}>{cinema.website}</Text>
       </View>
       <Cinema cinema={cinema} movies={movies}/>
